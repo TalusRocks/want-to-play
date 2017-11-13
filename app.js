@@ -13,6 +13,9 @@ app.use(cors())
 const gamesRouter = require('./src/routes/game-routes')
 app.use('/games', gamesRouter)
 
+const tagsRouter = require('./src/routes/tag-routes')
+app.use('/tags', tagsRouter)
+
 app.use((err, req, res, next) => {
   const status = err.status || 500
   const message = err.message || "Sorry, something went wrong."

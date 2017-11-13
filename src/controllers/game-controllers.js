@@ -8,6 +8,18 @@ function getAllGames(req, res, next){
   })
 }
 
+function getAllGamesWithTags(req, res, next){
+  model.getAllGamesWithTags().then(games => {
+    res.json(games)
+  })
+}
+
+function tagsByGameId(req, res, next){
+  model.tagsByGameId(req.params.gameId).then(games => {
+    res.json(games)
+  })
+}
+
 function getOneGame(req, res, next){
   model.getOneGame(req.params.gameId).then(game => {
     res.json(game)
@@ -62,4 +74,4 @@ function completeFields(req, res, next){
   return next()
 }
 
-module.exports = { getAllGames, getOneGame, createGame, editGame, deleteGame, completeFields, prune, exists }
+module.exports = { getAllGames, getAllGamesWithTags, getOneGame, createGame, editGame, deleteGame, completeFields, prune, exists, tagsByGameId }
