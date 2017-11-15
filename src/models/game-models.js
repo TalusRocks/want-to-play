@@ -46,18 +46,66 @@ function getOneGame(id) {
 }
 
 function createGame(body) {
+  //tags are coming in with the body, but they're peeled off here
+  let bodyTags = body.tags
   return knex('games')
-    .insert(body)
-    .returning('*')
-    .then(([game]) =>  game)
+    .insert({name: body.name,
+      interest: body.interest,
+      minPlayer: body.minPlayer,
+      maxPlayer: body.maxPlayer,
+      minTime: body.minTime,
+      maxTime: body.maxTime,
+      ratingBGG: body.ratingBGG,
+      weightBGG: body.weightBGG,
+      notes: body.notes}, '*')
+    .then(([insertedGame]) => {
+      let gameTags = bodyTags.map((tag) => {
+        return { name: tag }
+      })
+      return knex('tags')
+        .insert(gameTags, '*')
+        .then(allTags => {
+          let joinedGameIdTagId = allTags.map((tagRow) => {
+            return { tag_id: tagRow.id, game_id: insertedGame.id }
+          })
+          return knex('games_tags')
+            .insert(joinedGameIdTagId, '*')
+        })
+    })
 }
 
 function editGame(id, body) {
+  let bodyTags = body.tags
   return knex('games')
-    .update(body)
+    .update({name: body.name,
+      interest: body.interest,
+      minPlayer: body.minPlayer,
+      maxPlayer: body.maxPlayer,
+      minTime: body.minTime,
+      maxTime: body.maxTime,
+      ratingBGG: body.ratingBGG,
+      weightBGG: body.weightBGG,
+      notes: body.notes}, '*')
     .where({ id })
-    .returning('*')
-    .then(([game]) => game)
+    .then(([insertedGame]) => {
+      let gameTags = bodyTags.map((tag) => {
+        return { name: tag }
+      })
+      return knex('tags')
+        .insert(gameTags, '*')
+        .where({ id })
+        .then(allTags => {
+          let joinedGameIdTagId = allTags.map((tagRow) => {
+            return {tag_id: tagRow.id, game_id: insertedGame.id}
+          })
+          return knex('games_tags')
+            .insert(joinedGameIdTagId, '*')
+            // .where({ id })
+        })
+
+    })
+    // .returning('*')
+    // .then(([game]) => game)
 }
 
 function deleteGame(id) {

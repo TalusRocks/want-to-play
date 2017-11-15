@@ -1,6 +1,6 @@
 const model = require('../models/game-models')
 const requiredFields = ['name', 'interest', 'minPlayer', 'maxPlayer', 'minTime', 'maxTime']
-const pruneFields = ['name', 'interest', 'minPlayer', 'maxPlayer', 'minTime', 'maxTime', 'ratingBGG', 'weightBGG', 'notes']
+const pruneFields = ['name', 'interest', 'minPlayer', 'maxPlayer', 'minTime', 'maxTime', 'ratingBGG', 'weightBGG', 'notes', 'tags']
 
 function getAllGames(req, res, next){
   model.getAllGames().then(games => {
