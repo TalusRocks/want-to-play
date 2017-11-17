@@ -14,7 +14,9 @@ exports.seed = function(knex, Promise) {
         {id: 7, name: 'Scythe', interest: 10, minPlayer: 1, maxPlayer: 7, minTime: 90, maxTime: 115, ratingBGG: 8.3, weightBGG: 3.35, notes: '4x, alternate-history, surreal art'},
         {id: 8, name: 'The 7th Continent', interest: 8, minPlayer: 1, maxPlayer: 4, minTime: 5, maxTime: 1000, ratingBGG: 8.9, weightBGG: 2.85, notes: 'Cooperative and story-driven campaign'},
         {id: 9, name: 'Photosynthesis', interest: 5, minPlayer: 2, maxPlayer: 4, minTime: 30, maxTime: 60, ratingBGG: 7.5, weightBGG: 2.5, notes: 'You are literally trees'},
-        {id: 10, name: 'Petrichor', interest: 7, minPlayer: 1, maxPlayer: 4, minTime: 20, maxTime: 80, ratingBGG: 7.4, weightBGG: 3.00, notes: 'You are literally clouds'}
+        {id: 10, name: 'Petrichor', interest: 7, minPlayer: 1, maxPlayer: 4, minTime: 20, maxTime: 80, ratingBGG: 7.4, weightBGG: 3.00, notes: 'You are literally clouds'},
+        {id: 11, name: "Best Game Eva'", interest: 7, minPlayer: 2, maxPlayer: 5, minTime: 40, maxTime: 90, ratingBGG: 7.4, weightBGG: 3.25, notes: "It'll blow your mind"},
+        {id: 12, name: "Cooler Than Cool", interest: 7, minPlayer: 3, maxPlayer: 7, minTime: 45, maxTime: 90, ratingBGG: 7.5, weightBGG: 2.85, notes: "Ice Cold"}
       ])
     }).then(() => {
       return knex.raw(`SELECT setval('games_id_seq', (SELECT MAX(id) FROM games));`)
