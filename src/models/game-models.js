@@ -100,20 +100,20 @@ function editGame(id, body) {
           })
           return knex('games_tags')
             .insert(joinedGameIdTagId, '*')
-            // .where({ id })
         })
 
     })
-    // .returning('*')
-    // .then(([game]) => game)
 }
 
 function deleteGame(id) {
-  return knex('games')
+  return knex('games_tags')
     .del()
-    .where({ id })
-    .returning('*')
-    .then(([game]) => game)
+    .where( 'game_id', id )
+    .then(() => {
+      return knex('games')
+        .del()
+        .where({ id })
+    })
 }
 
 module.exports = { getAllGames, getAllGamesWithTags, getOneGame, createGame, editGame, deleteGame, tagsByGameId }

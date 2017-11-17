@@ -9,7 +9,8 @@ exports.seed = function(knex, Promise) {
         {id: 2, name: 'portable'},
         {id: 3, name: 'family'},
         {id: 4, name: 'new gamers'},
-        {id: 5, name: 'experienced gamers'}
+        {id: 5, name: 'experienced gamers'},
+        {id: 6, name: 'Kate'}
       ])
     }).then(() => {
       return knex.raw(`SELECT setval('tags_id_seq', (SELECT MAX(id) FROM tags));`)
