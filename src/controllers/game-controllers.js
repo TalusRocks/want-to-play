@@ -1,4 +1,5 @@
 const model = require('../models/game-models')
+// Hm... I wonder if it'd be worthwhile to put these fields in the model..? :thinking_face:
 const requiredFields = ['name', 'interest', 'minPlayer', 'maxPlayer', 'minTime', 'maxTime']
 const pruneFields = ['name', 'interest', 'minPlayer', 'maxPlayer', 'minTime', 'maxTime', 'ratingBGG', 'weightBGG', 'notes', 'tags']
 
@@ -34,6 +35,7 @@ function createGame(req, res, next){
 
 function editGame(req, res, next){
   model.editGame(req.params.gameId, req.body).then(game => {
+    // the status 200 is implicit
     res.status(200).json(game)
   })
 }
