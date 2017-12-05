@@ -26,48 +26,35 @@ function tagsByGameId(id) {
     .where('games.id', id)
 }
 
-// function getOneGameWithTags(id) {
-//   //get single game by id WITH tags
-//   return knex('games')
-//     .where('games.id', id)
-//     .then(game => {
-//       return tagsByGameId(game.id)
-//       .then(tags => {
-//         game.tags = tags
-//         return game
-//       })
-//     })
-// }
-
-
+// Make sure to remove all dead code!
 
 function getOneGame(id) {
   return knex('games').where({ id }).first()
 }
 
-function createGame(body) {
+// This would be a great time to do some destructuring!
+function createGame({
+  tags,
+  name,
+  interest,
+  minPlayer,
+  maxPlayer,
+  minTime,
+  maxTime,
+  ratingBGG,
+  weightBGG,
+  notes
+}) {
   //tags are coming in with the body, but they're peeled off here
-  let bodyTags = body.tags
   return knex('games')
-    .insert({name: body.name,
-      interest: body.interest,
-      minPlayer: body.minPlayer,
-      maxPlayer: body.maxPlayer,
-      minTime: body.minTime,
-      maxTime: body.maxTime,
-      ratingBGG: body.ratingBGG,
-      weightBGG: body.weightBGG,
-      notes: body.notes}, '*')
-    .then(([insertedGame]) => {
-      let gameTags = bodyTags.map((tag) => {
-        return { name: tag }
-      })
+    .insert({ name, interest, minPlayer, maxPlayer, minTime, maxTime, ratingBGG, weightBGG, notes }, '*')
+    .then(([{ id: newGameId }]) => {
+      let gameTags = tags.map((tag) => ({ name: tag }))
+
       return knex('tags')
         .insert(gameTags, '*')
         .then(allTags => {
-          let joinedGameIdTagId = allTags.map((tagRow) => {
-            return { tag_id: tagRow.id, game_id: insertedGame.id }
-          })
+          let joinedGameIdTagId = allTags.map(({ id }) => ({ tag_id: id, game_id: newGameId }))
           return knex('games_tags')
             .insert(joinedGameIdTagId, '*')
         })
